@@ -469,7 +469,7 @@ func (e *Base) SetupDefaults(exch *config.ExchangeConfig) error {
 
 	e.API.AuthenticatedSupport = exch.API.AuthenticatedSupport
 	if e.API.AuthenticatedSupport {
-		e.SetAPIKeys(exch.API.Credentials.Key, exch.API.Credentials.Secret, e.API.Credentials.ClientID)
+		e.SetAPIKeys(exch.API.Credentials.Key, exch.API.Credentials.Secret, exch.API.Credentials.ClientID)
 	}
 
 	if exch.HTTPTimeout <= time.Duration(0) {
@@ -555,7 +555,7 @@ func (e *Base) ValidateAPICredentials() bool {
 		}
 	}
 
-	if e.API.CredentialsValidator.RequiresBase64DecodeSecret {
+	if e.API.CredentialsValidator.RequiresBase64DecodeSecret && !e.LoadedByConfig {
 		_, err := common.Base64Decode(e.API.Credentials.Secret)
 		if err != nil {
 			return false
